@@ -5,4 +5,4 @@ import { readFile, writeFile } from 'node:fs/promises';
 const path = new URL('../dist/index.html', import.meta.url);
 const html = await readFile(path, 'utf8');
 await writeFile(path, html.replace(/<script type="module" crossorigin/g, '<script defer').replace(/<link rel="stylesheet" crossorigin/g, '<link rel="stylesheet"'));
-console.log('Tizen-ready dist/ created. Sign and package with Tizen Studio.');
+console.log('Tizen-ready dist/ created. Sign and deploy with the Tizen Extension for VS Code.');

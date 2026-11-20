@@ -19,7 +19,7 @@ npm run build
 npm run preview
 ```
 
-`npm run build` creates `dist/`, ready for a static server or packaging in Tizen Studio. The downloadable source ZIP also includes a prebuilt copy of that folder.
+`npm run build` creates `dist/`, ready for a static server or packaging with the Tizen Extension for Visual Studio Code. The downloadable source ZIP also includes a prebuilt copy of that folder.
 
 ## Pairing behavior
 
@@ -37,13 +37,19 @@ Use the directional pad to move between actions and Enter/OK to select. The firs
 
 The included `public/config.xml` targets the Samsung TV profile with Tizen 6.5 as the minimum declared version. The build uses relative asset paths and a classic IIFE script so it can load inside a packaged Tizen widget. The app does not require network privileges.
 
-Install Tizen Studio on your laptop or desktop computer. On that same computer, open its Package Manager and install TV Extensions and Samsung Certificate Extension. Tizen Studio is not installed on the TV.
+Tizen Studio is deprecated and no longer supported. Use the current [Tizen Extension for Visual Studio Code](https://marketplace.visualstudio.com/items?itemName=tizen.vscode-tizen-csharp) on your laptop or desktop computer. The extension manages its SDK components; follow its first-run setup prompts on that computer. Nothing from this development environment is installed on your TV.
 
-Connect the computer and TV to the same local network. On the TV, open Apps, then App Settings, enter `12345` using the remote number keypad, enable Developer Mode, enter the computer's local IP address, and restart the TV. In Tizen Studio on the computer, open Tools > Device Manager > Remote Device Manager and connect to the TV using the TV's local IP address.
+On the laptop, clone this repository, open it in VS Code, then run `npm ci` and `npm run build` in its terminal. This creates the TV-ready files in `dist/`.
 
-In Tools > Certificate Manager, create a Samsung TV certificate profile with your Samsung account and include your connected TV's DUID. Create an Empty Samsung TV Web Application project named Heus. After `npm run build`, copy the contents of `dist/` into that project's root folder, replacing its template files. Right-click the project and choose Run As > Tizen Web Application to install and launch it on the connected TV.
+Connect the laptop and TV to the same local network. On the TV, open Apps, then App Settings, enter `12345` using the remote number keypad, enable Developer Mode, enter the laptop's local IP address, and restart the TV. These are the TV-side setup steps.
 
-A signed `.wgt` is not included because signing requires your Samsung certificate. Update the sample application ID if your project or publishing account requires it. Samsung's setup guides: [install the SDK](https://developer.samsung.com/smarttv/develop/getting-started/setting-up-sdk/installing-tv-sdk.html), [connect a TV](https://developer.samsung.com/smarttv/develop/getting-started/using-sdk/tv-device.html), and [create certificates](https://developer.samsung.com/smarttv/develop/getting-started/setting-up-sdk/creating-certificates.html).
+Back on the laptop, open the Tizen activity bar in VS Code. Under Actions, select Connect Device, then Create Custom Connection. Add your TV's local IP address and port `26101`, and connect to it. The TV's IP address and the laptop's IP address are different: the TV uses the laptop's address in Developer Mode; VS Code uses the TV's address to connect.
+
+In the same Tizen Actions panel, select Create Certificate, then Create Samsung Certificate. Complete the author and distributor details, include your connected TV's DUID, and sign in with your Samsung Developer account when prompted. Use the resulting profile to sign the TV application.
+
+Use Actions > Create Project to create a `web` application for the TV device with the Empty template, named Heus. Choose a separate folder for this generated TV project so you preserve the React source. Select Set this as a working project and Add this project to current workspace. Copy the contents of the React project's `dist/` folder into the generated TV project's root, replacing its template files. In the Tizen Actions panel, select Run Project to package, install, and launch it on your connected TV.
+
+A signed `.wgt` is not included because signing requires your Samsung certificate. Update the sample application ID if your project or publishing account requires it. Official guides: [current extension](https://marketplace.visualstudio.com/items?itemName=tizen.vscode-tizen-csharp), [create a TV web project](https://developer.samsung.com/smarttv/develop/tools/additional-tools/vscode/create-web-applications.html), [connect your TV from VS Code](https://developer.samsung.com/smarttv/develop/tools/additional-tools/vscode/connecting-to-tv-device.html), and [create a signing certificate](https://developer.samsung.com/smarttv/develop/tools/additional-tools/vscode/creating-certificates.html).
 
 The browser preview, pairing behavior, and production build were checked. Physical Samsung hardware and the Tizen emulator were not available for validation. The UI uses a static 3D render, so it does not require WebGL at runtime.
 
