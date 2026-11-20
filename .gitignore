@@ -1,0 +1,8 @@
+node_modules/
+dist/
+*.wgt
+.DS_Store
+scripts/hand-mesh.json
+*.blend1
+__pycache__/
+*.pyc
